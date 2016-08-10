@@ -34,8 +34,12 @@ include_recipe 'yum-epel' if platform_family?('rhel')
 unless mac_with_no_homebrew
   # use multipackage when available as it is much faster
   if platform_family?('rhel', 'suse', 'debian', 'fedora')
-    package node['ruby_build']['install_pkgs']
-
+    
+    package 'install packages' do
+      package_name node['ruby_build']['install_pkgs']
+      action :install
+    end
+    
     package node['ruby_build']['install_git_pkgs'] do
       not_if 'git --version >/dev/null'
     end
